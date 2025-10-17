@@ -12,9 +12,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-const MONGODB_URI = 'mongodb+srv://ADMIN:ADMIN12345678@cluster0.rvrn2ng.mongodb.net/impertula?retryWrites=true&w=majority&appName=Cluster0';
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+// MongoDB Connection - Usar variables de entorno
+const MONGODB_URI = process.env.MONGODB_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Validar que las variables de entorno existan
+if (!MONGODB_URI || !JWT_SECRET) {
+  console.error('❌ ERROR: Faltan variables de entorno requeridas');
+  console.error('Asegúrate de tener un archivo .env con:');
+  console.error('  - MONGODB_URI');
+  console.error('  - JWT_SECRET');
+  process.exit(1);
+}
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('✅ Conectado a MongoDB'))

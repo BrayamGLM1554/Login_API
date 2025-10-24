@@ -1,0 +1,21 @@
+name: Keep Login API Awake
+
+# Ejecutar cada 14 minutos
+on:
+  schedule:
+    - cron: "*/14 * * * *"
+  workflow_dispatch: # permite ejecutar manualmente
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Login API
+        run: |
+          echo "Ping en $(date)"
+          status=$(curl -o /dev/null -s -w "%{http_code}" https://login-api-g0go.onrender.com/api/health)
+          echo "HTTP status code: $status"
+          if [ "$status" -ne 200 ]; then
+            echo "⚠️ La API respondió con un código distinto a 200"
+            exit 1
+          fi

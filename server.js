@@ -25,7 +25,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Validar que las variables de entorno existan
 if (!MONGODB_URI || !JWT_SECRET) {
-  console.error('❌ ERROR: Faltan variables de entorno requeridas');
+  console.error('ERROR: Faltan variables de entorno requeridas');
   console.error('Asegúrate de tener un archivo .env con:');
   console.error('  - MONGODB_URI');
   console.error('  - JWT_SECRET');
@@ -33,8 +33,8 @@ if (!MONGODB_URI || !JWT_SECRET) {
 }
 
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('✅ Conectado a MongoDB'))
-  .catch(err => console.error('❌ Error conectando a MongoDB:', err));
+  .then(() => console.log('Conectado a MongoDB'))
+  .catch(err => console.error('Error conectando a MongoDB:', err));
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -133,9 +133,6 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// NOTA: Para crear usuarios usa el script seed.js
-// Ejecuta: node seed.js
-
 // Middleware de autenticación (para rutas protegidas)
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -198,5 +195,5 @@ app.get('/api/health', (req, res) => {
 // Iniciar servidor
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
